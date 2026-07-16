@@ -1,0 +1,410 @@
+import React, { useState } from 'react';
+
+const ProductPage = () => {
+    const [selectedImage, setSelectedImage] = useState(0);
+    const [selectedPlan, setSelectedPlan] = useState('monthly');
+    const [quantity, setQuantity] = useState(1);
+    const [selectedVariant, setSelectedVariant] = useState(0);
+
+    // Variants with extra price
+    const variants = [
+        { id: 0, name: 'Standard', extraPrice: 0 },
+        { id: 1, name: 'Premium', extraPrice: 100 },
+        { id: 2, name: 'Enterprise', extraPrice: 300 },
+    ];
+
+    // Base prices for subscription plans
+    const basePrices = {
+        monthly: { total: 1200, perMonth: 1200, discount: 0 },
+        sixMonths: { total: 5760, perMonth: 960, discount: 20 },
+        yearly: { total: 10080, perMonth: 840, discount: 30 },
+    };
+
+    // Calculate prices with variant extra
+    const getPrice = (plan) => {
+        const base = basePrices[plan];
+        const extra = variants[selectedVariant].extraPrice;
+        const multiplier = plan === 'monthly' ? 1 : (plan === 'sixMonths' ? 6 : 12);
+        return {
+            total: base.total + (extra * multiplier),
+            perMonth: base.perMonth + extra,
+            discount: base.discount,
+        };
+    };
+
+    const styles = {
+        container: {
+            backgroundColor: '#0a1628',
+            minHeight: '100vh',
+            color: '#e74c3c',
+            fontFamily: 'Arial, sans-serif',
+            padding: '20px',
+            display: 'flex',
+        },
+        mainArea: {
+            flex: 1,
+        },
+        navbar: {
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            border: '1px solid #e74c3c',
+            padding: '10px 20px',
+            marginBottom: '15px',
+        },
+        navLeft: {
+            display: 'flex',
+            gap: '30px',
+            alignItems: 'center',
+        },
+        navRight: {
+            display: 'flex',
+            gap: '15px',
+            alignItems: 'center',
+        },
+        navItem: {
+            cursor: 'pointer',
+            fontSize: '14px',
+        },
+        navButton: {
+            border: '1px solid #e74c3c',
+            padding: '8px 16px',
+            backgroundColor: 'transparent',
+            color: '#e74c3c',
+            cursor: 'pointer',
+            fontSize: '12px',
+        },
+        breadcrumb: {
+            fontSize: '12px',
+            marginBottom: '15px',
+            color: '#e74c3c',
+        },
+        productContainer: {
+            display: 'flex',
+            gap: '20px',
+        },
+        thumbnailColumn: {
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '15px',
+            width: '100px',
+        },
+        thumbnail: {
+            border: '1px solid #e74c3c',
+            padding: '15px',
+            textAlign: 'center',
+            fontSize: '12px',
+            cursor: 'pointer',
+            aspectRatio: '1',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+        },
+        thumbnailSelected: {
+            border: '2px solid #e74c3c',
+        },
+        mainImage: {
+            border: '1px solid #e74c3c',
+            width: '300px',
+            height: '350px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            fontSize: '14px',
+            textAlign: 'center',
+            padding: '20px',
+        },
+        productDetails: {
+            border: '1px solid #e74c3c',
+            padding: '20px',
+            flex: 1,
+            maxWidth: '350px',
+        },
+        productName: {
+            fontSize: '16px',
+            marginBottom: '15px',
+            fontWeight: 'bold',
+        },
+        pricingTable: {
+            border: '1px solid #e74c3c',
+            marginBottom: '15px',
+        },
+        pricingRow: {
+            display: 'flex',
+            borderBottom: '1px solid #e74c3c',
+            fontSize: '12px',
+        },
+        pricingRowLast: {
+            display: 'flex',
+            fontSize: '12px',
+        },
+        pricingCell: {
+            padding: '8px 12px',
+            flex: 1,
+            borderRight: '1px solid #e74c3c',
+        },
+        pricingCellLast: {
+            padding: '8px 12px',
+            flex: 1,
+        },
+        pricingCellWithBadge: {
+            padding: '8px 12px',
+            flex: 1,
+            display: 'flex',
+            alignItems: 'center',
+            gap: '5px',
+        },
+        discountBadge: {
+            backgroundColor: '#e74c3c',
+            color: '#0a1628',
+            padding: '2px 5px',
+            fontSize: '8px',
+            borderRadius: '2px',
+        },
+        productCategory: {
+            fontSize: '12px',
+            marginBottom: '15px',
+        },
+        variantsSection: {
+            marginBottom: '15px',
+        },
+        variantsLabel: {
+            fontSize: '12px',
+            marginBottom: '8px',
+        },
+        variantsRow: {
+            display: 'flex',
+            alignItems: 'center',
+            gap: '10px',
+        },
+        quantityControls: {
+            display: 'flex',
+            alignItems: 'center',
+            border: '1px solid #e74c3c',
+        },
+        quantityButton: {
+            backgroundColor: '#333',
+            color: '#e74c3c',
+            border: 'none',
+            padding: '8px 12px',
+            cursor: 'pointer',
+            fontSize: '14px',
+        },
+        quantityValue: {
+            padding: '8px 15px',
+            backgroundColor: '#333',
+            color: '#e74c3c',
+            fontSize: '12px',
+        },
+        addToCartButton: {
+            border: '1px solid #e74c3c',
+            padding: '8px 16px',
+            backgroundColor: 'transparent',
+            color: '#e74c3c',
+            cursor: 'pointer',
+            fontSize: '12px',
+        },
+        infoSection: {
+            fontSize: '11px',
+            lineHeight: '1.8',
+        },
+        sidebar: {
+            width: '120px',
+            marginLeft: '20px',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '15px',
+        },
+        sidebarBox: {
+            border: '1px solid #e74c3c',
+            padding: '10px',
+            fontSize: '12px',
+        },
+        sidebarBoxTall: {
+            border: '1px solid #e74c3c',
+            padding: '10px',
+            fontSize: '12px',
+            height: '100px',
+        },
+        pageTitle: {
+            textAlign: 'center',
+            marginTop: '30px',
+            color: '#9b59b6',
+            fontSize: '18px',
+        },
+        designNote: {
+            textAlign: 'center',
+            marginTop: '10px',
+            color: '#2ecc71',
+            fontSize: '12px',
+        },
+        variantPopup: {
+            position: 'absolute',
+            backgroundColor: '#0a1628',
+            border: '1px solid #2ecc71',
+            padding: '10px',
+            fontSize: '11px',
+            marginTop: '5px',
+            zIndex: 10,
+        },
+        variantItem: {
+            padding: '5px 10px',
+            cursor: 'pointer',
+            borderBottom: '1px solid #e74c3c',
+        },
+    };
+
+    const thumbnails = ['img1', 'img 2', 'img 3'];
+
+    const handleQuantityChange = (delta) => {
+        setQuantity((prev) => Math.max(1, prev + delta));
+    };
+
+    return (
+        <div style={styles.container}>
+            {/* Main Area */}
+            <div style={styles.mainArea}>
+                {/* Navigation Bar */}
+                <nav style={styles.navbar}>
+                    <div style={styles.navLeft}>
+                        <span style={{ ...styles.navItem, border: '1px solid #e74c3c', padding: '5px 15px' }}>
+                            company logo
+                        </span>
+                        <span style={styles.navItem}>Home</span>
+                        <span style={styles.navItem}>Shop</span>
+                        <span style={styles.navItem}>My Account</span>
+                    </div>
+                    <div style={styles.navRight}>
+                        <button style={styles.navButton}>Cart</button>
+                        <button style={styles.navButton}>My profile</button>
+                    </div>
+                </nav>
+
+                {/* Breadcrumb */}
+                <div style={styles.breadcrumb}>
+                    All products/ Product Type/ particular product
+                </div>
+
+                {/* Product Container */}
+                <div style={styles.productContainer}>
+                    {/* Thumbnail Column */}
+                    <div style={styles.thumbnailColumn}>
+                        {thumbnails.map((thumb, index) => (
+                            <div
+                                key={index}
+                                style={{
+                                    ...styles.thumbnail,
+                                    ...(selectedImage === index ? styles.thumbnailSelected : {}),
+                                }}
+                                onClick={() => setSelectedImage(index)}
+                            >
+                                {thumb}
+                            </div>
+                        ))}
+                    </div>
+
+                    {/* Main Image */}
+                    <div style={styles.mainImage}>
+                        select image in big size
+                    </div>
+
+                    {/* Product Details */}
+                    <div style={styles.productDetails}>
+                        <div style={styles.productName}>Product Name</div>
+
+                        {/* Pricing Table - Dynamic based on selected variant */}
+                        <div style={styles.pricingTable}>
+                            <div style={styles.pricingRow}>
+                                <div style={styles.pricingCell}>Monthly</div>
+                                <div style={styles.pricingCell}>{getPrice('monthly').total}</div>
+                                <div style={styles.pricingCellLast}>{getPrice('monthly').perMonth}/month</div>
+                            </div>
+                            <div style={styles.pricingRow}>
+                                <div style={styles.pricingCell}>6 Months</div>
+                                <div style={styles.pricingCell}>{getPrice('sixMonths').total}</div>
+                                <div style={styles.pricingCellWithBadge}>
+                                    {getPrice('sixMonths').perMonth}/month <span style={styles.discountBadge}>20%</span>
+                                </div>
+                            </div>
+                            <div style={styles.pricingRowLast}>
+                                <div style={styles.pricingCell}>Yearly</div>
+                                <div style={styles.pricingCell}>{getPrice('yearly').total}</div>
+                                <div style={styles.pricingCellWithBadge}>
+                                    {getPrice('yearly').perMonth}/month <span style={styles.discountBadge}>30%</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Product Category */}
+                        <div style={styles.productCategory}>Product category</div>
+
+                        {/* Variant Selection List */}
+                        <div style={styles.variantsSection}>
+                            <div style={styles.variantsLabel}>Select Variant:</div>
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '15px' }}>
+                                {variants.map((variant) => (
+                                    <div
+                                        key={variant.id}
+                                        onClick={() => setSelectedVariant(variant.id)}
+                                        style={{
+                                            border: selectedVariant === variant.id ? '2px solid #2ecc71' : '1px solid #e74c3c',
+                                            padding: '10px 15px',
+                                            cursor: 'pointer',
+                                            display: 'flex',
+                                            justifyContent: 'space-between',
+                                            alignItems: 'center',
+                                            backgroundColor: selectedVariant === variant.id ? 'rgba(46, 204, 113, 0.1)' : 'transparent',
+                                        }}
+                                    >
+                                        <span style={{ fontSize: '12px' }}>{variant.name}</span>
+                                        <span style={{ fontSize: '11px', color: variant.extraPrice > 0 ? '#2ecc71' : '#e74c3c' }}>
+                                            {variant.extraPrice > 0 ? `+${variant.extraPrice}/month` : 'Base price'}
+                                        </span>
+                                    </div>
+                                ))}
+                            </div>
+                            <div style={styles.variantsRow}>
+                                <div style={styles.quantityControls}>
+                                    <button
+                                        style={styles.quantityButton}
+                                        onClick={() => handleQuantityChange(-1)}
+                                    >
+                                        -
+                                    </button>
+                                    <span style={styles.quantityValue}>{quantity}</span>
+                                    <button
+                                        style={styles.quantityButton}
+                                        onClick={() => handleQuantityChange(1)}
+                                    >
+                                        +
+                                    </button>
+                                </div>
+                                <button style={styles.addToCartButton}>Add to cart</button>
+                            </div>
+                        </div>
+
+                        {/* Info Section */}
+                        <div style={styles.infoSection}>
+                            <div>Terms and conditions</div>
+                            <div>30 day money back guarantee</div>
+                            <div>shipping 2-3 Business days</div>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Page Title */}
+                <div style={styles.pageTitle}>Product Page</div>
+            </div>
+
+            {/* Right Sidebar */}
+            <div style={styles.sidebar}>
+                <div style={styles.sidebarBox}>company</div>
+                <div style={styles.sidebarBox}>Order</div>
+                <div style={styles.sidebarBoxTall}></div>
+                <div style={styles.sidebarBoxTall}></div>
+            </div>
+        </div>
+    );
+};
+
+export default ProductPage;

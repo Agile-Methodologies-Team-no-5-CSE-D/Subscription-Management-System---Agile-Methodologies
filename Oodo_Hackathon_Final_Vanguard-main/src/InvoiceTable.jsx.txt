@@ -1,0 +1,60 @@
+import React from 'react';
+
+const InvoiceTable = () => {
+    return (
+        <div className="bg-surface-light dark:bg-surface-dark rounded-lg shadow-sm border border-gray-200 dark:border-gray-800 overflow-hidden mb-8">
+            <div className="overflow-x-auto">
+                <table className="w-full text-sm text-left">
+                    <thead className="text-xs uppercase bg-gray-50 dark:bg-gray-800/50 text-secondary-text-light dark:text-secondary-text-dark font-medium border-b border-gray-200 dark:border-gray-700">
+                        <tr>
+                            <th className="px-6 py-3 font-semibold w-1/2">Product Name</th>
+                            <th className="px-6 py-3 font-semibold text-right">Quantity</th>
+                            <th className="px-6 py-3 font-semibold text-right">Unit Price</th>
+                            <th className="px-6 py-3 font-semibold text-right">Taxes</th>
+                            <th className="px-6 py-3 font-semibold text-right">Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody className="divide-y divide-gray-100 dark:divide-gray-800">
+                        <tr className="group hover:bg-gray-50 dark:hover:bg-gray-800/30 transition-colors">
+                            <td className="px-6 py-4">
+                                <span className="font-medium text-text-light dark:text-text-dark">Main Product</span>
+                            </td>
+                            <td className="px-6 py-4 text-right text-text-light dark:text-text-dark">
+                                2.00 Unit
+                            </td>
+                            <td className="px-6 py-4 text-right text-text-light dark:text-text-dark">
+                                2400.00 Rs
+                            </td>
+                            <td className="px-6 py-4 text-right text-text-light dark:text-text-dark">
+                                15%
+                            </td>
+                            <td className="px-6 py-4 text-right font-medium text-text-light dark:text-text-dark">
+                                180.00
+                            </td>
+                        </tr>
+                        <tr className="group hover:bg-gray-50 dark:hover:bg-gray-800/30 transition-colors">
+                            <td className="px-6 py-4">
+                                <span className="font-medium text-text-light dark:text-text-dark">10% on your order</span>
+                                <div className="text-xs text-secondary-text-light dark:text-secondary-text-dark">Discount applied</div>
+                            </td>
+                            <td className="px-6 py-4 text-right text-text-light dark:text-text-dark">
+                                1.00 Unit
+                            </td>
+                            <td className="px-6 py-4 text-right text-text-light dark:text-text-dark">
+                                -120.00 Rs
+                            </td>
+                            <td className="px-6 py-4 text-right text-text-light dark:text-text-dark">
+
+                            </td>
+                            <td className="px-6 py-4 text-right font-medium text-text-light dark:text-text-dark">
+                                -120.00
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    );
+};
+
+export default InvoiceTable;

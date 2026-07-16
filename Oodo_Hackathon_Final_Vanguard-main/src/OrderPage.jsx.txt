@@ -1,0 +1,398 @@
+import React, { useState } from 'react';
+
+const OrderPage = () => {
+    const [profileMenuOpen, setProfileMenuOpen] = useState(false);
+
+    const styles = {
+        container: {
+            backgroundColor: '#0a1628',
+            minHeight: '100vh',
+            color: '#e74c3c',
+            fontFamily: 'Arial, sans-serif',
+            padding: '20px',
+        },
+        navbar: {
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            border: '1px solid #e74c3c',
+            padding: '10px 20px',
+            marginBottom: '0',
+        },
+        navLeft: {
+            display: 'flex',
+            gap: '30px',
+            alignItems: 'center',
+        },
+        navRight: {
+            display: 'flex',
+            gap: '15px',
+            alignItems: 'center',
+        },
+        navItem: {
+            cursor: 'pointer',
+            fontSize: '14px',
+        },
+        navButton: {
+            border: '1px solid #e74c3c',
+            padding: '8px 16px',
+            backgroundColor: 'transparent',
+            color: '#e74c3c',
+            cursor: 'pointer',
+            fontSize: '12px',
+        },
+        profileContainer: {
+            position: 'relative',
+        },
+        profileDropdown: {
+            position: 'absolute',
+            top: '100%',
+            right: 0,
+            backgroundColor: '#0a1628',
+            border: '1px solid #e74c3c',
+            zIndex: 10,
+            minWidth: '100px',
+            marginTop: '5px',
+        },
+        dropdownItem: {
+            padding: '8px 12px',
+            cursor: 'pointer',
+            fontSize: '10px',
+            borderBottom: '1px solid #e74c3c',
+        },
+        dropdownItemLast: {
+            padding: '8px 12px',
+            cursor: 'pointer',
+            fontSize: '10px',
+        },
+        mainContainer: {
+            border: '1px solid #e74c3c',
+            borderTop: 'none',
+            padding: '20px',
+            minHeight: '450px',
+        },
+        orderHeader: {
+            display: 'flex',
+            alignItems: 'center',
+            gap: '20px',
+            marginBottom: '15px',
+        },
+        orderTitle: {
+            fontSize: '16px',
+            fontWeight: 'bold',
+        },
+        actionButton: {
+            border: '1px solid #e74c3c',
+            padding: '5px 12px',
+            backgroundColor: 'transparent',
+            color: '#e74c3c',
+            cursor: 'pointer',
+            fontSize: '11px',
+        },
+        customerName: {
+            fontSize: '13px',
+            marginBottom: '20px',
+            padding: '5px 10px',
+            border: '1px solid #e74c3c',
+            display: 'inline-block',
+        },
+        contentGrid: {
+            display: 'grid',
+            gridTemplateColumns: '1fr 1fr',
+            gap: '30px',
+            marginBottom: '30px',
+        },
+        leftSection: {
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '15px',
+        },
+        rightSection: {
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '10px',
+        },
+        subscriptionBox: {
+            border: '1px solid #e74c3c',
+            padding: '15px',
+        },
+        subscriptionHeader: {
+            display: 'flex',
+            justifyContent: 'space-between',
+            marginBottom: '10px',
+        },
+        subscriptionId: {
+            fontSize: '12px',
+        },
+        stateLabel: {
+            fontSize: '10px',
+            border: '1px solid #e74c3c',
+            padding: '3px 8px',
+        },
+        subscriptionTitle: {
+            fontSize: '13px',
+            fontWeight: 'bold',
+            marginBottom: '10px',
+        },
+        fieldRow: {
+            display: 'flex',
+            marginBottom: '8px',
+            fontSize: '11px',
+        },
+        fieldLabel: {
+            width: '80px',
+        },
+        fieldValue: {
+            borderBottom: '1px solid #e74c3c',
+            flex: 1,
+            minWidth: '100px',
+        },
+        invoicesSection: {
+            marginTop: '10px',
+        },
+        invoicesTitle: {
+            fontSize: '12px',
+            marginBottom: '8px',
+        },
+        invoiceRow: {
+            display: 'flex',
+            alignItems: 'center',
+            gap: '15px',
+            fontSize: '10px',
+        },
+        paymentStatusBtn: {
+            border: '1px solid #e74c3c',
+            padding: '4px 10px',
+            backgroundColor: 'transparent',
+            color: '#e74c3c',
+            cursor: 'pointer',
+            fontSize: '10px',
+        },
+        addressBox: {
+            border: '1px solid #e74c3c',
+            padding: '15px',
+        },
+        addressTitle: {
+            fontSize: '13px',
+            fontWeight: 'bold',
+            marginBottom: '15px',
+            textDecoration: 'underline',
+        },
+        addressLines: {
+            marginBottom: '15px',
+        },
+        addressLine: {
+            borderBottom: '1px solid #e74c3c',
+            marginBottom: '8px',
+            height: '15px',
+        },
+        productsTable: {
+            width: '100%',
+            borderCollapse: 'collapse',
+            marginTop: '20px',
+        },
+        tableHeader: {
+            borderBottom: '1px solid #e74c3c',
+            textAlign: 'left',
+            padding: '8px',
+            fontSize: '12px',
+        },
+        tableCell: {
+            padding: '8px',
+            fontSize: '11px',
+            borderBottom: '1px solid #e74c3c',
+        },
+        discountRow: {
+            color: '#2ecc71',
+        },
+        totalsSection: {
+            display: 'flex',
+            justifyContent: 'flex-end',
+            marginTop: '15px',
+        },
+        totalsBox: {
+            textAlign: 'right',
+            fontSize: '11px',
+        },
+        totalRow: {
+            display: 'flex',
+            justifyContent: 'space-between',
+            gap: '30px',
+            marginBottom: '5px',
+        },
+        totalLabel: {
+            textAlign: 'right',
+        },
+        totalValue: {
+            width: '60px',
+            textAlign: 'right',
+        },
+        totalFinal: {
+            fontWeight: 'bold',
+            borderTop: '1px solid #e74c3c',
+            paddingTop: '5px',
+        },
+        pageTitle: {
+            textAlign: 'center',
+            marginTop: '30px',
+            color: '#e74c3c',
+            fontSize: '22px',
+            fontWeight: 'bold',
+            letterSpacing: '2px',
+        },
+    };
+
+    return (
+        <div style={styles.container}>
+            {/* Navigation Bar */}
+            <nav style={styles.navbar}>
+                <div style={styles.navLeft}>
+                    <span style={{ ...styles.navItem, border: '1px solid #e74c3c', padding: '5px 15px' }}>
+                        company logo
+                    </span>
+                    <span style={styles.navItem}>Home</span>
+                    <span style={styles.navItem}>Shop</span>
+                </div>
+                <div style={styles.navRight}>
+                    <button style={styles.navButton}>Cart</button>
+                    <div style={styles.profileContainer}>
+                        <button
+                            style={styles.navButton}
+                            onClick={() => setProfileMenuOpen(!profileMenuOpen)}
+                        >
+                            My profile
+                        </button>
+                        {profileMenuOpen && (
+                            <div style={styles.profileDropdown}>
+                                <div style={styles.dropdownItem}>User details</div>
+                                <div style={styles.dropdownItemLast}>My orders</div>
+                            </div>
+                        )}
+                    </div>
+                </div>
+            </nav>
+
+            {/* Main Container */}
+            <div style={styles.mainContainer}>
+                {/* Order Header */}
+                <div style={styles.orderHeader}>
+                    <span style={styles.orderTitle}>Order/S0001</span>
+                    <button style={styles.actionButton}>Download</button>
+                    <button style={styles.actionButton}>Renew</button>
+                    <button style={styles.actionButton}>Close</button>
+                </div>
+
+                {/* Customer Name */}
+                <div style={styles.customerName}>Clever Aardvark</div>
+
+                {/* Content Grid */}
+                <div style={styles.contentGrid}>
+                    {/* Left Section - Subscription */}
+                    <div style={styles.leftSection}>
+                        <div style={styles.subscriptionBox}>
+                            <div style={styles.subscriptionHeader}>
+                                <span style={styles.subscriptionId}>Order ID: S00022</span>
+                                <span style={styles.stateLabel}>State of subscription</span>
+                            </div>
+                            <div style={styles.subscriptionTitle}>Your Subscription</div>
+                            <div style={styles.fieldRow}>
+                                <span style={styles.fieldLabel}>Plan:</span>
+                                <span style={styles.fieldValue}></span>
+                            </div>
+                            <div style={styles.fieldRow}>
+                                <span style={styles.fieldLabel}>Start Date:</span>
+                                <span style={styles.fieldValue}></span>
+                            </div>
+                            <div style={styles.fieldRow}>
+                                <span style={styles.fieldLabel}>End Date:</span>
+                                <span style={styles.fieldValue}></span>
+                            </div>
+
+                            {/* Lost Invoices */}
+                            <div style={styles.invoicesSection}>
+                                <div style={styles.invoicesTitle}>Lost Invoices</div>
+                                <div style={styles.invoiceRow}>
+                                    <span>Invoice number</span>
+                                    <button style={styles.paymentStatusBtn}>payment status</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Right Section - Address */}
+                    <div style={styles.rightSection}>
+                        <div style={styles.addressBox}>
+                            <div style={styles.addressTitle}>Invoicing and Shipping Address</div>
+                            <div style={styles.addressLines}>
+                                <div style={styles.addressLine}></div>
+                                <div style={styles.addressLine}></div>
+                                <div style={styles.addressLine}></div>
+                                <div style={styles.addressLine}></div>
+                            </div>
+                            <div style={styles.fieldRow}>
+                                <span style={styles.fieldLabel}>Email:</span>
+                                <span style={styles.fieldValue}></span>
+                            </div>
+                            <div style={styles.fieldRow}>
+                                <span style={styles.fieldLabel}>Phone Number:</span>
+                                <span style={styles.fieldValue}></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Products Table */}
+                <table style={styles.productsTable}>
+                    <thead>
+                        <tr>
+                            <th style={styles.tableHeader}>Products</th>
+                            <th style={styles.tableHeader}>Quantity</th>
+                            <th style={styles.tableHeader}>Unit Price</th>
+                            <th style={styles.tableHeader}>Taxes</th>
+                            <th style={styles.tableHeader}>Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style={styles.tableCell}>Product Name</td>
+                            <td style={styles.tableCell}>2.00 Unit</td>
+                            <td style={styles.tableCell}>1200 Rs</td>
+                            <td style={styles.tableCell}>10%</td>
+                            <td style={styles.tableCell}>2400</td>
+                        </tr>
+                        <tr>
+                            <td style={{ ...styles.tableCell, color: '#2ecc71' }}>10% on your order</td>
+                            <td style={styles.tableCell}>1</td>
+                            <td style={{ ...styles.tableCell, color: '#2ecc71' }}>-120 rs</td>
+                            <td style={styles.tableCell}></td>
+                            <td style={{ ...styles.tableCell, color: '#2ecc71' }}>- 120</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                {/* Totals */}
+                <div style={styles.totalsSection}>
+                    <div style={styles.totalsBox}>
+                        <div style={styles.totalRow}>
+                            <span>Untaxed Amount:</span>
+                            <span style={styles.totalValue}>2280</span>
+                        </div>
+                        <div style={styles.totalRow}>
+                            <span>Tax 15%:</span>
+                            <span style={styles.totalValue}>360</span>
+                        </div>
+                        <div style={{ ...styles.totalRow, ...styles.totalFinal }}>
+                            <span>Total:</span>
+                            <span style={styles.totalValue}>2640</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {/* Page Title */}
+            <div style={styles.pageTitle}>ORDER PAGE</div>
+        </div>
+    );
+};
+
+export default OrderPage;

@@ -1,0 +1,264 @@
+import React, { useState } from 'react';
+
+const ShopPage = () => {
+  const [categoryOpen, setCategoryOpen] = useState(false);
+  const [productTypeOpen, setProductTypeOpen] = useState(false);
+  const [sortOpen, setSortOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const styles = {
+    container: {
+      backgroundColor: '#0a1628',
+      minHeight: '100vh',
+      color: '#e74c3c',
+      fontFamily: 'Arial, sans-serif',
+      padding: '20px',
+    },
+    navbar: {
+      display: 'flex',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      border: '1px solid #e74c3c',
+      padding: '10px 20px',
+      marginBottom: '20px',
+    },
+    navLeft: {
+      display: 'flex',
+      gap: '30px',
+      alignItems: 'center',
+    },
+    navRight: {
+      display: 'flex',
+      gap: '20px',
+      alignItems: 'center',
+    },
+    navItem: {
+      cursor: 'pointer',
+      fontSize: '14px',
+    },
+    navButton: {
+      border: '1px solid #e74c3c',
+      padding: '8px 16px',
+      backgroundColor: 'transparent',
+      color: '#e74c3c',
+      cursor: 'pointer',
+      fontSize: '12px',
+    },
+    mainContent: {
+      display: 'flex',
+      gap: '20px',
+    },
+    sidebar: {
+      width: '150px',
+      display: 'flex',
+      flexDirection: 'column',
+      gap: '15px',
+    },
+    sidebarItem: {
+      border: '1px solid #e74c3c',
+      padding: '10px',
+      fontSize: '12px',
+    },
+    contentArea: {
+      flex: 1,
+      border: '1px solid #e74c3c',
+      padding: '20px',
+    },
+    filterRow: {
+      display: 'flex',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      marginBottom: '20px',
+      gap: '20px',
+    },
+    filterLeft: {
+      display: 'flex',
+      gap: '20px',
+      alignItems: 'center',
+    },
+    dropdown: {
+      position: 'relative',
+    },
+    dropdownButton: {
+      border: '1px solid #e74c3c',
+      padding: '8px 16px',
+      backgroundColor: 'transparent',
+      color: '#e74c3c',
+      cursor: 'pointer',
+      fontSize: '12px',
+      minWidth: '120px',
+      textAlign: 'left',
+    },
+    dropdownMenu: {
+      position: 'absolute',
+      top: '100%',
+      left: 0,
+      backgroundColor: '#0a1628',
+      border: '1px solid #e74c3c',
+      zIndex: 10,
+      minWidth: '120px',
+    },
+    dropdownItem: {
+      padding: '8px 16px',
+      cursor: 'pointer',
+      fontSize: '12px',
+      borderBottom: '1px solid #e74c3c',
+    },
+    searchInput: {
+      border: '1px solid #e74c3c',
+      padding: '8px 16px',
+      backgroundColor: 'transparent',
+      color: '#e74c3c',
+      fontSize: '12px',
+      width: '200px',
+      outline: 'none',
+    },
+    productGrid: {
+      display: 'grid',
+      gridTemplateColumns: 'repeat(4, 1fr)',
+      gap: '15px',
+    },
+    productCard: {
+      border: '1px solid #e74c3c',
+      aspectRatio: '1',
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'flex-end',
+      padding: '10px',
+      position: 'relative',
+    },
+    productBadge: {
+      position: 'absolute',
+      top: '10px',
+      left: '10px',
+      fontSize: '10px',
+    },
+    productInfo: {
+      fontSize: '10px',
+    },
+    pageTitle: {
+      textAlign: 'center',
+      marginTop: '30px',
+      color: '#2ecc71',
+      fontSize: '18px',
+    },
+    subscriptionNote: {
+      textAlign: 'center',
+      marginTop: '10px',
+      color: '#2ecc71',
+      fontSize: '14px',
+    },
+  };
+
+  const products = [
+    { id: 1, name: 'Product 1', badge: 'New', price: 1200, billing: 'Monthly' },
+    { id: 2, name: 'Product 2', badge: null, price: 960, billing: '6 Months' },
+    { id: 3, name: 'Product 3', badge: 'Sale', price: 840, billing: 'Yearly' },
+    { id: 4, name: 'Product 4', badge: null, price: 1500, billing: 'Monthly' },
+    { id: 5, name: 'Product 5', badge: null, price: 1100, billing: '6 Months' },
+    { id: 6, name: 'Product 6', badge: 'New', price: 700, billing: 'Yearly' },
+    { id: 7, name: 'Product 7', badge: null, price: 1350, billing: 'Monthly' },
+    { id: 8, name: 'Product 8', badge: null, price: 890, billing: '6 Months' },
+  ];
+
+  return (
+    <div style={styles.container}>
+      {/* Navigation Bar */}
+      <nav style={styles.navbar}>
+        <div style={styles.navLeft}>
+          <span style={styles.navItem}>company logo</span>
+          <span style={styles.navItem}>Home</span>
+          <span style={styles.navItem}>Shop</span>
+          <span style={styles.navItem}>My Account</span>
+        </div>
+        <div style={styles.navRight}>
+          <button style={styles.navButton}>Cart</button>
+          <button style={styles.navButton}>My profile</button>
+        </div>
+      </nav>
+
+      {/* Main Content */}
+      <div style={styles.mainContent}>
+        {/* Sidebar */}
+        <div style={styles.sidebar}>
+          <div style={styles.sidebarItem}>Category</div>
+          <div style={styles.sidebarItem}>Price Range</div>
+        </div>
+
+        {/* Content Area */}
+        <div style={styles.contentArea}>
+          {/* Filter Row */}
+          <div style={styles.filterRow}>
+            <div style={styles.filterLeft}>
+              {/* Product Type Dropdown */}
+              <div style={styles.dropdown}>
+                <button
+                  style={styles.dropdownButton}
+                  onClick={() => setProductTypeOpen(!productTypeOpen)}
+                >
+                  All Products<br />
+                  <span style={{ fontSize: '10px' }}>product type</span>
+                </button>
+                {productTypeOpen && (
+                  <div style={styles.dropdownMenu}>
+                    <div style={styles.dropdownItem}>All Products</div>
+                    <div style={styles.dropdownItem}>Type 1</div>
+                    <div style={styles.dropdownItem}>Type 2</div>
+                  </div>
+                )}
+              </div>
+
+              {/* Search Input */}
+              <input
+                type="text"
+                placeholder="Search"
+                style={styles.searchInput}
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+            </div>
+
+            {/* Sort Dropdown */}
+            <div style={styles.dropdown}>
+              <button
+                style={styles.dropdownButton}
+                onClick={() => setSortOpen(!sortOpen)}
+              >
+                Sort By Price
+              </button>
+              {sortOpen && (
+                <div style={styles.dropdownMenu}>
+                  <div style={styles.dropdownItem}>Low to High</div>
+                  <div style={styles.dropdownItem}>High to Low</div>
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* Product Grid */}
+          <div style={styles.productGrid}>
+            {products.map((product) => (
+              <div key={product.id} style={styles.productCard}>
+                {product.badge && (
+                  <span style={styles.productBadge}>{product.badge}</span>
+                )}
+                <div style={styles.productInfo}>
+                  <div style={{ fontWeight: 'bold', marginBottom: '5px' }}>{product.name}</div>
+                  <div>₹{product.price}/month</div>
+                  <div style={{ fontSize: '9px', color: '#2ecc71' }}>
+                    Billing: {product.billing}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Page Title */}
+      <div style={styles.pageTitle}>Shop Page</div>
+    </div>
+  );
+};
+
+export default ShopPage;

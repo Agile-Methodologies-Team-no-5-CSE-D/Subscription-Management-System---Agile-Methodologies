@@ -1,0 +1,225 @@
+import React, { useState } from 'react';
+
+const UserDetailsPage = () => {
+    const [profileMenuOpen, setProfileMenuOpen] = useState(false);
+    const [userData, setUserData] = useState({
+        userName: 'User Name',
+        email: 'Email',
+        phoneNumber: 'Phone Number',
+        address: 'Address',
+    });
+    const [editMode, setEditMode] = useState({
+        userName: false,
+        email: false,
+        phoneNumber: false,
+        address: false,
+    });
+
+    const styles = {
+        container: {
+            backgroundColor: '#0a1628',
+            minHeight: '100vh',
+            color: '#e74c3c',
+            fontFamily: 'Arial, sans-serif',
+            padding: '20px',
+        },
+        navbar: {
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            border: '1px solid #e74c3c',
+            padding: '10px 20px',
+            marginBottom: '20px',
+        },
+        navLeft: {
+            display: 'flex',
+            gap: '30px',
+            alignItems: 'center',
+        },
+        navRight: {
+            display: 'flex',
+            gap: '15px',
+            alignItems: 'center',
+        },
+        navItem: {
+            cursor: 'pointer',
+            fontSize: '14px',
+        },
+        navButton: {
+            border: '1px solid #e74c3c',
+            padding: '8px 16px',
+            backgroundColor: 'transparent',
+            color: '#e74c3c',
+            cursor: 'pointer',
+            fontSize: '12px',
+        },
+        profileContainer: {
+            position: 'relative',
+        },
+        profileDropdown: {
+            position: 'absolute',
+            top: '100%',
+            right: 0,
+            backgroundColor: '#0a1628',
+            border: '1px solid #e74c3c',
+            zIndex: 10,
+            minWidth: '120px',
+            marginTop: '5px',
+        },
+        dropdownItem: {
+            padding: '10px 15px',
+            cursor: 'pointer',
+            fontSize: '11px',
+            borderBottom: '1px solid #e74c3c',
+        },
+        dropdownItemLast: {
+            padding: '10px 15px',
+            cursor: 'pointer',
+            fontSize: '11px',
+        },
+        mainContent: {
+            border: '1px solid #e74c3c',
+            padding: '30px',
+            minHeight: '350px',
+        },
+        fieldContainer: {
+            marginBottom: '20px',
+        },
+        fieldLabel: {
+            fontSize: '14px',
+            cursor: 'pointer',
+            padding: '5px 0',
+            display: 'inline-block',
+        },
+        fieldInput: {
+            backgroundColor: 'transparent',
+            border: '1px solid #e74c3c',
+            color: '#e74c3c',
+            padding: '8px 12px',
+            fontSize: '14px',
+            outline: 'none',
+            width: '250px',
+        },
+        otherDetails: {
+            fontSize: '10px',
+            marginTop: '30px',
+            opacity: 0.7,
+        },
+        pageTitle: {
+            textAlign: 'center',
+            marginTop: '30px',
+            color: '#e74c3c',
+            fontSize: '20px',
+        },
+        designNote: {
+            textAlign: 'center',
+            marginTop: '15px',
+            color: '#2ecc71',
+            fontSize: '14px',
+        },
+        sideNote: {
+            position: 'fixed',
+            right: '20px',
+            top: '150px',
+            color: '#2ecc71',
+            fontSize: '10px',
+        },
+    };
+
+    const handleFieldClick = (field) => {
+        setEditMode((prev) => ({ ...prev, [field]: true }));
+    };
+
+    const handleFieldChange = (field, value) => {
+        setUserData((prev) => ({ ...prev, [field]: value }));
+    };
+
+    const handleFieldBlur = (field) => {
+        setEditMode((prev) => ({ ...prev, [field]: false }));
+    };
+
+    const renderField = (field, label) => {
+        if (editMode[field]) {
+            return (
+                <input
+                    type="text"
+                    style={styles.fieldInput}
+                    value={userData[field]}
+                    onChange={(e) => handleFieldChange(field, e.target.value)}
+                    onBlur={() => handleFieldBlur(field)}
+                    autoFocus
+                />
+            );
+        }
+        return (
+            <span style={styles.fieldLabel} onClick={() => handleFieldClick(field)}>
+                {userData[field]}
+            </span>
+        );
+    };
+
+    return (
+        <div style={styles.container}>
+            {/* Navigation Bar */}
+            <nav style={styles.navbar}>
+                <div style={styles.navLeft}>
+                    <span style={{ ...styles.navItem, border: '1px solid #e74c3c', padding: '5px 15px' }}>
+                        company logo
+                    </span>
+                    <span style={styles.navItem}>Home</span>
+                    <span style={styles.navItem}>Shop</span>
+                </div>
+                <div style={styles.navRight}>
+                    <button style={styles.navButton}>Cart</button>
+                    <div style={styles.profileContainer}>
+                        <button
+                            style={styles.navButton}
+                            onClick={() => setProfileMenuOpen(!profileMenuOpen)}
+                        >
+                            My profile
+                        </button>
+                        {profileMenuOpen && (
+                            <div style={styles.profileDropdown}>
+                                <div style={styles.dropdownItem}>User details</div>
+                                <div style={styles.dropdownItemLast}>My Orders</div>
+                            </div>
+                        )}
+                    </div>
+                </div>
+            </nav>
+
+            {/* Main Content */}
+            <div style={styles.mainContent}>
+                <div style={styles.fieldContainer}>
+                    {renderField('userName', 'User Name')}
+                </div>
+                <div style={styles.fieldContainer}>
+                    {renderField('email', 'Email')}
+                </div>
+                <div style={styles.fieldContainer}>
+                    {renderField('phoneNumber', 'Phone Number')}
+                </div>
+                <div style={styles.fieldContainer}>
+                    {renderField('address', 'Address')}
+                </div>
+                <div style={styles.otherDetails}>
+                    Other details following - related to user
+                </div>
+            </div>
+
+            {/* Page Title */}
+            <div style={styles.pageTitle}>User Details Page</div>
+            <div style={styles.designNote}>
+                All information should editable
+            </div>
+
+            {/* Side Note */}
+            <div style={styles.sideNote}>
+                On click of this it should<br />
+                open dropdown
+            </div>
+        </div>
+    );
+};
+
+export default UserDetailsPage;

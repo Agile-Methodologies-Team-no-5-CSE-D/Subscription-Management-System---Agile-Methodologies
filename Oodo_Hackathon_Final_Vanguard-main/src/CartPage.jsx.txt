@@ -1,0 +1,483 @@
+import React, { useState } from 'react';
+
+const CartPage = () => {
+    const [activeTab, setActiveTab] = useState('order');
+    const [quantity, setQuantity] = useState(1);
+    const [discountCode, setDiscountCode] = useState('');
+    const [discountApplied, setDiscountApplied] = useState(true);
+
+    const styles = {
+        container: {
+            backgroundColor: '#0a1628',
+            minHeight: '100vh',
+            color: '#e74c3c',
+            fontFamily: 'Arial, sans-serif',
+            padding: '20px',
+        },
+        designNote: {
+            textAlign: 'center',
+            color: '#2ecc71',
+            fontSize: '11px',
+            marginBottom: '10px',
+        },
+        navbar: {
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            border: '1px solid #e74c3c',
+            padding: '10px 20px',
+            marginBottom: '15px',
+        },
+        navLeft: {
+            display: 'flex',
+            gap: '30px',
+            alignItems: 'center',
+        },
+        navRight: {
+            display: 'flex',
+            gap: '15px',
+            alignItems: 'center',
+        },
+        navItem: {
+            cursor: 'pointer',
+            fontSize: '14px',
+        },
+        navButton: {
+            border: '1px solid #e74c3c',
+            padding: '8px 16px',
+            backgroundColor: 'transparent',
+            color: '#e74c3c',
+            cursor: 'pointer',
+            fontSize: '12px',
+        },
+        mainContainer: {
+            border: '1px solid #e74c3c',
+            padding: '20px',
+        },
+        tabNav: {
+            display: 'flex',
+            gap: '30px',
+            marginBottom: '20px',
+            fontSize: '14px',
+        },
+        tab: {
+            cursor: 'pointer',
+            paddingBottom: '5px',
+        },
+        tabActive: {
+            cursor: 'pointer',
+            paddingBottom: '5px',
+            borderBottom: '2px solid #e74c3c',
+        },
+        contentArea: {
+            display: 'flex',
+            gap: '30px',
+        },
+        cartItems: {
+            flex: 1,
+        },
+        cartItem: {
+            display: 'flex',
+            alignItems: 'center',
+            gap: '20px',
+            marginBottom: '25px',
+        },
+        itemImage: {
+            width: '80px',
+            height: '80px',
+            border: '1px solid #e74c3c',
+        },
+        itemDetails: {
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '8px',
+        },
+        itemName: {
+            fontSize: '14px',
+        },
+        removeButton: {
+            border: '1px solid #e74c3c',
+            padding: '4px 12px',
+            backgroundColor: 'transparent',
+            color: '#e74c3c',
+            cursor: 'pointer',
+            fontSize: '11px',
+            width: 'fit-content',
+        },
+        itemPrice: {
+            fontSize: '12px',
+            marginLeft: '20px',
+        },
+        quantityControls: {
+            display: 'flex',
+            alignItems: 'center',
+            border: '1px solid #e74c3c',
+            marginLeft: '20px',
+        },
+        quantityButton: {
+            backgroundColor: 'transparent',
+            color: '#e74c3c',
+            border: 'none',
+            padding: '6px 10px',
+            cursor: 'pointer',
+            fontSize: '12px',
+        },
+        quantityValue: {
+            padding: '6px 12px',
+            fontSize: '12px',
+            borderLeft: '1px solid #e74c3c',
+            borderRight: '1px solid #e74c3c',
+        },
+        orderSummary: {
+            width: '250px',
+            border: '1px solid #e74c3c',
+            padding: '15px',
+        },
+        summaryRow: {
+            display: 'flex',
+            justifyContent: 'space-between',
+            marginBottom: '10px',
+            fontSize: '13px',
+        },
+        summaryTotal: {
+            display: 'flex',
+            justifyContent: 'space-between',
+            marginBottom: '15px',
+            fontSize: '14px',
+            fontWeight: 'bold',
+            paddingTop: '10px',
+            borderTop: '1px solid #e74c3c',
+        },
+        discountRow: {
+            display: 'flex',
+            gap: '10px',
+            marginBottom: '10px',
+        },
+        discountInput: {
+            flex: 1,
+            border: '1px solid #e74c3c',
+            padding: '8px 10px',
+            backgroundColor: 'transparent',
+            color: '#e74c3c',
+            fontSize: '11px',
+            outline: 'none',
+        },
+        applyButton: {
+            border: '1px solid #e74c3c',
+            padding: '8px 12px',
+            backgroundColor: 'transparent',
+            color: '#e74c3c',
+            cursor: 'pointer',
+            fontSize: '11px',
+        },
+        successMessage: {
+            border: '1px solid #e74c3c',
+            padding: '8px',
+            fontSize: '11px',
+            textAlign: 'center',
+            marginBottom: '15px',
+        },
+        checkoutButton: {
+            width: '100%',
+            border: '1px solid #e74c3c',
+            padding: '12px',
+            backgroundColor: 'transparent',
+            color: '#e74c3c',
+            cursor: 'pointer',
+            fontSize: '14px',
+        },
+        pageTitle: {
+            textAlign: 'center',
+            marginTop: '30px',
+            color: '#e74c3c',
+            fontSize: '18px',
+        },
+        sideNote: {
+            position: 'absolute',
+            right: '20px',
+            top: '50px',
+            color: '#2ecc71',
+            fontSize: '10px',
+            maxWidth: '200px',
+            textAlign: 'right',
+        },
+        bottomNote: {
+            position: 'absolute',
+            right: '20px',
+            bottom: '100px',
+            color: '#2ecc71',
+            fontSize: '10px',
+        },
+    };
+
+    const handleQuantityChange = (delta) => {
+        setQuantity((prev) => Math.max(1, prev + delta));
+    };
+
+    const handleApplyDiscount = () => {
+        setDiscountApplied(true);
+    };
+
+    return (
+        <div style={styles.container}>
+            {/* Top Design Note */}
+            <div style={styles.designNote}>
+                For payment any demo or testing beta version payment gate will work<br />
+                and accordingly page should be implemented
+            </div>
+
+            {/* Navigation Bar */}
+            <nav style={styles.navbar}>
+                <div style={styles.navLeft}>
+                    <span style={{ ...styles.navItem, border: '1px solid #e74c3c', padding: '5px 15px' }}>
+                        company logo
+                    </span>
+                    <span style={styles.navItem}>Home</span>
+                    <span style={styles.navItem}>Shop</span>
+                    <span style={styles.navItem}>My Account</span>
+                </div>
+                <div style={styles.navRight}>
+                    <button style={styles.navButton}>Cart</button>
+                    <button style={styles.navButton}>My profile</button>
+                </div>
+            </nav>
+
+            {/* Main Container */}
+            <div style={styles.mainContainer}>
+                {/* Tab Navigation */}
+                <div style={styles.tabNav}>
+                    <span
+                        style={activeTab === 'order' ? styles.tabActive : styles.tab}
+                        onClick={() => setActiveTab('order')}
+                    >
+                        Order
+                    </span>
+                    <span
+                        style={activeTab === 'address' ? styles.tabActive : styles.tab}
+                        onClick={() => setActiveTab('address')}
+                    >
+                        Address
+                    </span>
+                    <span
+                        style={activeTab === 'payment' ? styles.tabActive : styles.tab}
+                        onClick={() => setActiveTab('payment')}
+                    >
+                        Payment
+                    </span>
+                </div>
+
+                {/* Content Area - Order Tab */}
+                {activeTab === 'order' && (
+                    <div style={styles.contentArea}>
+                        {/* Cart Items */}
+                        <div style={styles.cartItems}>
+                            {/* Cart Item 1 */}
+                            <div style={styles.cartItem}>
+                                <div style={styles.itemImage}></div>
+                                <div style={styles.itemDetails}>
+                                    <div style={styles.itemName}>Product name</div>
+                                    <button style={styles.removeButton}>Remove</button>
+                                </div>
+                                <div style={styles.itemPrice}>1200 r.s per day</div>
+                                <div style={styles.quantityControls}>
+                                    <button
+                                        style={styles.quantityButton}
+                                        onClick={() => handleQuantityChange(-1)}
+                                    >
+                                        -
+                                    </button>
+                                    <span style={styles.quantityValue}>{quantity}</span>
+                                    <button
+                                        style={styles.quantityButton}
+                                        onClick={() => handleQuantityChange(1)}
+                                    >
+                                        +
+                                    </button>
+                                </div>
+                            </div>
+
+                            {/* Cart Item 2 - Discount */}
+                            <div style={styles.cartItem}>
+                                <div style={styles.itemImage}></div>
+                                <div style={styles.itemDetails}>
+                                    <div style={styles.itemName}>10% on your order</div>
+                                    <button style={styles.removeButton}>Remove</button>
+                                </div>
+                                <div style={styles.itemPrice}>-120 rs</div>
+                            </div>
+                        </div>
+
+                        {/* Order Summary */}
+                        <div style={styles.orderSummary}>
+                            <div style={styles.summaryRow}>
+                                <span>Subtotal</span>
+                                <span>1080</span>
+                            </div>
+                            <div style={styles.summaryRow}>
+                                <span>Taxes</span>
+                                <span>120</span>
+                            </div>
+                            <div style={styles.summaryTotal}>
+                                <span>Total</span>
+                                <span>1200</span>
+                            </div>
+
+                            {/* Discount Code */}
+                            <div style={styles.discountRow}>
+                                <input
+                                    type="text"
+                                    placeholder="Discount code"
+                                    style={styles.discountInput}
+                                    value={discountCode}
+                                    onChange={(e) => setDiscountCode(e.target.value)}
+                                />
+                                <button style={styles.applyButton} onClick={handleApplyDiscount}>
+                                    Apply
+                                </button>
+                            </div>
+
+                            {/* Success Message */}
+                            {discountApplied && (
+                                <div style={styles.successMessage}>
+                                    You have successfully applied
+                                </div>
+                            )}
+
+                            {/* Checkout Button */}
+                            <button style={styles.checkoutButton}>Checkout</button>
+                        </div>
+                    </div>
+                )}
+
+                {/* Content Area - Address Tab */}
+                {activeTab === 'address' && (
+                    <div style={{ padding: '20px' }}>
+                        <div style={{ fontSize: '16px', marginBottom: '20px', fontWeight: 'bold' }}>
+                            Shipping Address
+                        </div>
+
+                        {/* Default Address */}
+                        <div style={{ border: '1px solid #e74c3c', padding: '15px', marginBottom: '20px', maxWidth: '400px' }}>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '10px' }}>
+                                <span style={{ fontSize: '13px', fontWeight: 'bold' }}>Default Address</span>
+                                <input type="radio" name="address" defaultChecked style={{ accentColor: '#e74c3c' }} />
+                            </div>
+                            <div style={{ fontSize: '12px', lineHeight: '1.8' }}>
+                                <div>User Name</div>
+                                <div>123 Main Street</div>
+                                <div>City, State 12345</div>
+                                <div>Phone: +1 234 567 890</div>
+                            </div>
+                            <button style={{ marginTop: '10px', border: '1px solid #e74c3c', padding: '5px 12px', backgroundColor: 'transparent', color: '#e74c3c', cursor: 'pointer', fontSize: '11px' }}>
+                                Edit
+                            </button>
+                        </div>
+
+                        {/* Add Different Address Option */}
+                        <div style={{ border: '1px solid #e74c3c', padding: '15px', maxWidth: '400px' }}>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '10px' }}>
+                                <span style={{ fontSize: '13px', fontWeight: 'bold' }}>Use Different Address</span>
+                                <input type="radio" name="address" style={{ accentColor: '#e74c3c' }} />
+                            </div>
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                                <input type="text" placeholder="Full Name" style={{ border: '1px solid #e74c3c', padding: '8px', backgroundColor: 'transparent', color: '#e74c3c', outline: 'none', fontSize: '12px' }} />
+                                <input type="text" placeholder="Address Line 1" style={{ border: '1px solid #e74c3c', padding: '8px', backgroundColor: 'transparent', color: '#e74c3c', outline: 'none', fontSize: '12px' }} />
+                                <input type="text" placeholder="Address Line 2" style={{ border: '1px solid #e74c3c', padding: '8px', backgroundColor: 'transparent', color: '#e74c3c', outline: 'none', fontSize: '12px' }} />
+                                <div style={{ display: 'flex', gap: '10px' }}>
+                                    <input type="text" placeholder="City" style={{ flex: 1, border: '1px solid #e74c3c', padding: '8px', backgroundColor: 'transparent', color: '#e74c3c', outline: 'none', fontSize: '12px' }} />
+                                    <input type="text" placeholder="ZIP Code" style={{ width: '100px', border: '1px solid #e74c3c', padding: '8px', backgroundColor: 'transparent', color: '#e74c3c', outline: 'none', fontSize: '12px' }} />
+                                </div>
+                                <input type="text" placeholder="Phone Number" style={{ border: '1px solid #e74c3c', padding: '8px', backgroundColor: 'transparent', color: '#e74c3c', outline: 'none', fontSize: '12px' }} />
+                            </div>
+                        </div>
+
+                        <button style={{ marginTop: '20px', border: '1px solid #e74c3c', padding: '10px 20px', backgroundColor: 'transparent', color: '#e74c3c', cursor: 'pointer', fontSize: '13px' }} onClick={() => setActiveTab('payment')}>
+                            Continue to Payment
+                        </button>
+                    </div>
+                )}
+
+                {/* Content Area - Payment Tab */}
+                {activeTab === 'payment' && (
+                    <div style={{ padding: '20px' }}>
+                        <div style={{ fontSize: '16px', marginBottom: '20px', fontWeight: 'bold' }}>
+                            Payment Method
+                        </div>
+
+                        <div style={{ border: '1px solid #2ecc71', padding: '10px', marginBottom: '20px', maxWidth: '400px', backgroundColor: 'rgba(46, 204, 113, 0.1)' }}>
+                            <span style={{ color: '#2ecc71', fontSize: '11px' }}>
+                                Demo/Testing Mode: Payment gateway simulation active
+                            </span>
+                        </div>
+
+                        {/* Payment Options */}
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '15px', maxWidth: '400px' }}>
+                            {/* Card Payment */}
+                            <div style={{ border: '1px solid #e74c3c', padding: '15px' }}>
+                                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '15px' }}>
+                                    <span style={{ fontSize: '13px', fontWeight: 'bold' }}>Credit/Debit Card</span>
+                                    <input type="radio" name="payment" defaultChecked style={{ accentColor: '#e74c3c' }} />
+                                </div>
+                                <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                                    <input type="text" placeholder="Card Number" style={{ border: '1px solid #e74c3c', padding: '8px', backgroundColor: 'transparent', color: '#e74c3c', outline: 'none', fontSize: '12px' }} />
+                                    <div style={{ display: 'flex', gap: '10px' }}>
+                                        <input type="text" placeholder="MM/YY" style={{ flex: 1, border: '1px solid #e74c3c', padding: '8px', backgroundColor: 'transparent', color: '#e74c3c', outline: 'none', fontSize: '12px' }} />
+                                        <input type="text" placeholder="CVV" style={{ width: '80px', border: '1px solid #e74c3c', padding: '8px', backgroundColor: 'transparent', color: '#e74c3c', outline: 'none', fontSize: '12px' }} />
+                                    </div>
+                                    <input type="text" placeholder="Name on Card" style={{ border: '1px solid #e74c3c', padding: '8px', backgroundColor: 'transparent', color: '#e74c3c', outline: 'none', fontSize: '12px' }} />
+                                </div>
+                            </div>
+
+                            {/* UPI Payment */}
+                            <div style={{ border: '1px solid #e74c3c', padding: '15px' }}>
+                                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '10px' }}>
+                                    <span style={{ fontSize: '13px', fontWeight: 'bold' }}>UPI Payment</span>
+                                    <input type="radio" name="payment" style={{ accentColor: '#e74c3c' }} />
+                                </div>
+                                <input type="text" placeholder="Enter UPI ID" style={{ width: '100%', border: '1px solid #e74c3c', padding: '8px', backgroundColor: 'transparent', color: '#e74c3c', outline: 'none', fontSize: '12px' }} />
+                            </div>
+
+                            {/* Cash on Delivery */}
+                            <div style={{ border: '1px solid #e74c3c', padding: '15px' }}>
+                                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                                    <span style={{ fontSize: '13px', fontWeight: 'bold' }}>Cash on Delivery</span>
+                                    <input type="radio" name="payment" style={{ accentColor: '#e74c3c' }} />
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Order Summary */}
+                        <div style={{ marginTop: '20px', border: '1px solid #e74c3c', padding: '15px', maxWidth: '400px' }}>
+                            <div style={{ fontSize: '13px', marginBottom: '10px' }}>Order Summary</div>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px', marginBottom: '5px' }}>
+                                <span>Subtotal</span><span>1080</span>
+                            </div>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px', marginBottom: '5px' }}>
+                                <span>Taxes</span><span>120</span>
+                            </div>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '14px', fontWeight: 'bold', borderTop: '1px solid #e74c3c', paddingTop: '10px' }}>
+                                <span>Total</span><span>1200</span>
+                            </div>
+                        </div>
+
+                        <button style={{ marginTop: '20px', border: '1px solid #e74c3c', padding: '12px 30px', backgroundColor: '#e74c3c', color: '#0a1628', cursor: 'pointer', fontSize: '14px', fontWeight: 'bold' }}>
+                            Place Order
+                        </button>
+                    </div>
+                )}
+            </div>
+
+            {/* Page Title */}
+            <div style={styles.pageTitle}>Cart Page</div>
+
+            {/* Design Notes (as shown in image) */}
+            <div style={{ color: '#2ecc71', fontSize: '10px', marginTop: '20px', textAlign: 'right' }}>
+                For address page by default User address<br />
+                should come and later on if they want to add<br />
+                different that option should also be given
+            </div>
+        </div>
+    );
+};
+
+export default CartPage;

@@ -1,0 +1,135 @@
+import { useState } from "react";
+
+export default function HomePage() {
+    const [showProfileMenu, setShowProfileMenu] = useState(false);
+
+    return (
+        <div style={styles.page}>
+            {/* Navbar */}
+            <div style={styles.navbar}>
+                {/* Left */}
+                <div style={styles.leftNav}>
+                    <div style={styles.logo}>Company Logo</div>
+                    <nav style={styles.navLinks}>
+                        <span>Home</span>
+                        <span>Shop</span>
+                        <span>My Account</span>
+                    </nav>
+                </div>
+
+                {/* Right */}
+                <div style={styles.rightNav}>
+                    <button style={styles.button}>Cart</button>
+
+                    <div style={{ position: "relative" }}>
+                        <button
+                            style={styles.button}
+                            onClick={() => setShowProfileMenu(!showProfileMenu)}
+                        >
+                            My Profile
+                        </button>
+
+                        {showProfileMenu && (
+                            <div style={styles.dropdown}>
+                                <button style={styles.dropdownItem}>User details</button>
+                                <button style={styles.dropdownItem}>My orders</button>
+                                <button style={{ ...styles.dropdownItem, borderTop: '1px solid #ff6b6b' }}>Sign Out</button>
+                            </div>
+                        )}
+                    </div>
+                </div>
+            </div>
+
+            {/* Main Content */}
+            <div style={styles.content}>
+                <h1 style={styles.heading}>HOME Page</h1>
+            </div>
+        </div>
+    );
+}
+
+/* ---------- Styles ---------- */
+
+const styles = {
+    page: {
+        minHeight: "100vh",
+        backgroundColor: "#0f0f0f",
+        backgroundImage:
+            "linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px)",
+        backgroundSize: "40px 40px",
+        color: "#ff6b6b",
+        fontFamily: "sans-serif",
+    },
+
+    navbar: {
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
+        padding: "16px 24px",
+        borderBottom: "1px solid #ff6b6b",
+    },
+
+    leftNav: {
+        display: "flex",
+        alignItems: "center",
+        gap: "24px",
+    },
+
+    logo: {
+        border: "1px solid #ff6b6b",
+        padding: "6px 12px",
+        borderRadius: "6px",
+    },
+
+    navLinks: {
+        display: "flex",
+        gap: "16px",
+        cursor: "pointer",
+    },
+
+    rightNav: {
+        display: "flex",
+        alignItems: "center",
+        gap: "12px",
+    },
+
+    button: {
+        background: "transparent",
+        border: "1px solid #ff6b6b",
+        color: "#ff6b6b",
+        padding: "6px 12px",
+        borderRadius: "6px",
+        cursor: "pointer",
+    },
+
+    dropdown: {
+        position: "absolute",
+        top: "40px",
+        right: 0,
+        border: "1px solid #ff6b6b",
+        borderRadius: "6px",
+        backgroundColor: "#0f0f0f",
+    },
+
+    dropdownItem: {
+        background: "transparent",
+        border: "none",
+        color: "#ff6b6b",
+        padding: "8px 16px",
+        cursor: "pointer",
+        width: "100%",
+        textAlign: "left",
+    },
+
+    content: {
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        height: "calc(100vh - 70px)",
+    },
+
+    heading: {
+        fontSize: "48px",
+        letterSpacing: "2px",
+    },
+};

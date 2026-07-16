@@ -1,0 +1,256 @@
+import React, { useState } from 'react';
+
+const OrdersPage = () => {
+    const [profileMenuOpen, setProfileMenuOpen] = useState(false);
+
+    const styles = {
+        container: {
+            backgroundColor: '#0a1628',
+            minHeight: '100vh',
+            color: '#e74c3c',
+            fontFamily: 'Arial, sans-serif',
+            padding: '20px',
+        },
+        topLeftMenu: {
+            position: 'absolute',
+            top: '10px',
+            left: '10px',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '10px',
+        },
+        menuBox: {
+            border: '1px solid #e74c3c',
+            padding: '8px 15px',
+            fontSize: '11px',
+            cursor: 'pointer',
+        },
+        navbar: {
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            border: '1px solid #e74c3c',
+            padding: '10px 20px',
+            marginBottom: '0',
+            marginLeft: '100px',
+        },
+        navLeft: {
+            display: 'flex',
+            gap: '30px',
+            alignItems: 'center',
+        },
+        navRight: {
+            display: 'flex',
+            gap: '15px',
+            alignItems: 'center',
+        },
+        navItem: {
+            cursor: 'pointer',
+            fontSize: '14px',
+        },
+        navButton: {
+            border: '1px solid #e74c3c',
+            padding: '8px 16px',
+            backgroundColor: 'transparent',
+            color: '#e74c3c',
+            cursor: 'pointer',
+            fontSize: '12px',
+        },
+        profileContainer: {
+            position: 'relative',
+        },
+        profileDropdown: {
+            position: 'absolute',
+            top: '100%',
+            right: 0,
+            backgroundColor: '#0a1628',
+            border: '1px solid #e74c3c',
+            zIndex: 10,
+            minWidth: '100px',
+            marginTop: '5px',
+        },
+        dropdownItem: {
+            padding: '8px 12px',
+            cursor: 'pointer',
+            fontSize: '10px',
+            borderBottom: '1px solid #e74c3c',
+        },
+        dropdownItemLast: {
+            padding: '8px 12px',
+            cursor: 'pointer',
+            fontSize: '10px',
+        },
+        mainContainer: {
+            border: '1px solid #e74c3c',
+            borderTop: 'none',
+            marginLeft: '100px',
+            padding: '20px',
+            minHeight: '400px',
+        },
+        orderHeader: {
+            fontSize: '14px',
+            marginBottom: '15px',
+        },
+        orderTable: {
+            width: '100%',
+            maxWidth: '600px',
+        },
+        tableHeader: {
+            display: 'flex',
+            borderBottom: '1px solid #e74c3c',
+            paddingBottom: '10px',
+            marginBottom: '10px',
+        },
+        tableHeaderCell: {
+            fontSize: '13px',
+            fontWeight: 'bold',
+            textDecoration: 'underline',
+        },
+        tableRow: {
+            display: 'flex',
+            marginBottom: '8px',
+            cursor: 'pointer',
+        },
+        tableCell: {
+            fontSize: '12px',
+        },
+        colOrder: {
+            width: '150px',
+        },
+        colDate: {
+            width: '200px',
+        },
+        colTotal: {
+            width: '100px',
+        },
+        rightSidebar: {
+            position: 'absolute',
+            right: '10px',
+            top: '300px',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '8px',
+        },
+        copyButton: {
+            border: '1px solid #e74c3c',
+            padding: '5px 10px',
+            backgroundColor: 'transparent',
+            color: '#e74c3c',
+            cursor: 'pointer',
+            fontSize: '10px',
+        },
+        designNote: {
+            color: '#2ecc71',
+            fontSize: '10px',
+            marginTop: '30px',
+        },
+        rightNote: {
+            position: 'absolute',
+            right: '10px',
+            top: '180px',
+            color: '#2ecc71',
+            fontSize: '10px',
+            maxWidth: '150px',
+            textAlign: 'right',
+        },
+        pageTitle: {
+            textAlign: 'center',
+            marginTop: '40px',
+            color: '#e74c3c',
+            fontSize: '24px',
+            fontWeight: 'bold',
+            letterSpacing: '3px',
+        },
+    };
+
+    const orders = [
+        { id: 'S0001', date: '06/02/2026', total: '1200' },
+        { id: 'S0002', date: '06/02/2026', total: '1800' },
+    ];
+
+    return (
+        <div style={styles.container}>
+            {/* Top Left Menu */}
+            <div style={styles.topLeftMenu}>
+                <div style={styles.menuBox}>User details</div>
+                <div style={styles.menuBox}>My Orders</div>
+            </div>
+
+            {/* Navigation Bar */}
+            <nav style={styles.navbar}>
+                <div style={styles.navLeft}>
+                    <span style={{ ...styles.navItem, border: '1px solid #e74c3c', padding: '5px 15px' }}>
+                        company logo
+                    </span>
+                    <span style={styles.navItem}>Home</span>
+                    <span style={styles.navItem}>Shop</span>
+                </div>
+                <div style={styles.navRight}>
+                    <button style={styles.navButton}>Cart</button>
+                    <div style={styles.profileContainer}>
+                        <button
+                            style={styles.navButton}
+                            onClick={() => setProfileMenuOpen(!profileMenuOpen)}
+                        >
+                            My profile
+                        </button>
+                        {profileMenuOpen && (
+                            <div style={styles.profileDropdown}>
+                                <div style={styles.dropdownItem}>User details</div>
+                                <div style={styles.dropdownItemLast}>My orders</div>
+                            </div>
+                        )}
+                    </div>
+                </div>
+            </nav>
+
+            {/* Main Container */}
+            <div style={styles.mainContainer}>
+                <div style={styles.orderHeader}>Order</div>
+
+                {/* Order Table */}
+                <div style={styles.orderTable}>
+                    {/* Table Header */}
+                    <div style={styles.tableHeader}>
+                        <div style={{ ...styles.tableHeaderCell, ...styles.colOrder }}>Order</div>
+                        <div style={{ ...styles.tableHeaderCell, ...styles.colDate }}>Order Date</div>
+                        <div style={{ ...styles.tableHeaderCell, ...styles.colTotal }}>Total</div>
+                    </div>
+
+                    {/* Table Rows */}
+                    {orders.map((order) => (
+                        <div key={order.id} style={styles.tableRow}>
+                            <div style={{ ...styles.tableCell, ...styles.colOrder }}>{order.id}</div>
+                            <div style={{ ...styles.tableCell, ...styles.colDate }}>{order.date}</div>
+                            <div style={{ ...styles.tableCell, ...styles.colTotal }}>{order.total}</div>
+                        </div>
+                    ))}
+                </div>
+
+                {/* Design Note */}
+                <div style={styles.designNote}>
+                    On click of this it should take to order page accordingly
+                </div>
+            </div>
+
+            {/* Right Side Note */}
+            <div style={styles.rightNote}>
+                On clicking this<br />
+                created and ...<br /><br />
+                This should r...
+            </div>
+
+            {/* Right Sidebar - Copy Buttons */}
+            <div style={styles.rightSidebar}>
+                <button style={styles.copyButton}>Copy</button>
+                <button style={styles.copyButton}>Copy</button>
+                <button style={styles.copyButton}>Copy</button>
+            </div>
+
+            {/* Page Title */}
+            <div style={styles.pageTitle}>ORDERS PAGE</div>
+        </div>
+    );
+};
+
+export default OrdersPage;
